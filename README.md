@@ -13,7 +13,19 @@ The initial foundation includes:
 - Backend health endpoint at `GET /health`
 - Runnable frontend shell
 
-Entities, migrations, authentication, roles, seed data, and feature pages are planned for later phases.
+Authentication, roles, seed data, and feature pages are planned for later phases.
+
+## Database migrations
+
+Phase 1 defines the `users`, `stores`, and `ratings` tables. TypeORM is configured with `synchronize: false`; use migrations to change the schema.
+
+```powershell
+Set-Location backend
+npm run migration:show
+npm run migration:run
+```
+
+The schema enforces unique user emails, one store per store owner, one rating per user and store, foreign keys, and the 1-5 rating range.
 
 ## Prerequisites
 

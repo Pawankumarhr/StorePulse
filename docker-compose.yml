@@ -1,0 +1,22 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: storepulse-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: storepulse
+      MYSQL_USER: storepulse
+      MYSQL_PASSWORD: storepulse
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - '3306:3306'
+    volumes:
+      - storepulse-mysql:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-proot']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+volumes:
+  storepulse-mysql:

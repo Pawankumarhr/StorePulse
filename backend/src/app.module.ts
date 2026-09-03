@@ -2,10 +2,13 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module.js';
+import { AdminModule } from './admin/admin.module.js';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { Rating } from './ratings/entities/rating.entity.js';
+import { RatingsModule } from './ratings/ratings.module.js';
 import { Store } from './stores/entities/store.entity.js';
+import { StoresModule } from './stores/stores.module.js';
 import { User } from './users/entities/user.entity.js';
 import { UsersModule } from './users/users.module.js';
 
@@ -13,6 +16,9 @@ import { UsersModule } from './users/users.module.js';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     AuthModule,
+    AdminModule,
+    StoresModule,
+    RatingsModule,
     UsersModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

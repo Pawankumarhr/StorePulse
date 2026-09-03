@@ -8,8 +8,8 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { Store } from '../../stores/entities/store.entity.js';
-import { User } from '../../users/entities/user.entity.js';
+import type { Store } from '../../stores/entities/store.entity.js';
+import type { User } from '../../users/entities/user.entity.js';
 
 @Entity('ratings')
 @Unique('UQ_ratings_user_store', ['userId', 'storeId'])
@@ -32,11 +32,11 @@ export class Rating {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.ratings, { nullable: false })
+  @ManyToOne('User', (user: User) => user.ratings, { nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Store, (store) => store.ratings, { nullable: false })
+  @ManyToOne('Store', (store: Store) => store.ratings, { nullable: false })
   @JoinColumn({ name: 'store_id' })
   store: Store;
 }

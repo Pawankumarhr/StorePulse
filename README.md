@@ -27,6 +27,19 @@ npm run migration:run
 
 The schema enforces unique user emails, one store per store owner, one rating per user and store, foreign keys, and the 1-5 rating range.
 
+## Authentication
+
+Phase 2 provides:
+
+- `POST /auth/signup` for normal users
+- `POST /auth/login` returning a one-hour access token
+- `PATCH /auth/update-password` for authenticated users
+- DTO validation for names, emails, addresses, and passwords
+- bcrypt password hashing
+- JWT and role guard infrastructure for protected feature modules
+
+Send the token in the `Authorization: Bearer <token>` header when calling protected endpoints.
+
 ## Prerequisites
 
 - Node.js 22 or newer

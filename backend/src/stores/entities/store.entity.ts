@@ -8,8 +8,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Rating } from '../../ratings/entities/rating.entity.js';
-import { User } from '../../users/entities/user.entity.js';
+import type { Rating } from '../../ratings/entities/rating.entity.js';
+import type { User } from '../../users/entities/user.entity.js';
 
 @Entity('stores')
 @Index('IDX_stores_owner_id', ['ownerId'])
@@ -30,13 +30,13 @@ export class Store {
   @Column({ name: 'owner_id' })
   ownerId: number;
 
-  @ManyToOne(() => User, (user) => user.stores, { nullable: false })
+  @ManyToOne('User', (user: User) => user.stores, { nullable: false })
   @JoinColumn({ name: 'owner_id' })
   owner: User;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @OneToMany(() => Rating, (rating) => rating.store)
+  @OneToMany('Rating', (rating: Rating) => rating.store)
   ratings: Rating[];
 }

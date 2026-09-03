@@ -8,8 +8,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Role } from '../../common/enums/role.enum.js';
-import { Rating } from '../../ratings/entities/rating.entity.js';
-import { Store } from '../../stores/entities/store.entity.js';
+import type { Rating } from '../../ratings/entities/rating.entity.js';
+import type { Store } from '../../stores/entities/store.entity.js';
 
 @Entity('users')
 @Index('IDX_users_role', ['role'])
@@ -38,9 +38,9 @@ export class User {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @OneToMany(() => Store, (store) => store.owner)
+  @OneToMany('Store', (store: Store) => store.owner)
   stores: Store[];
 
-  @OneToMany(() => Rating, (rating) => rating.user)
+  @OneToMany('Rating', (rating: Rating) => rating.user)
   ratings: Rating[];
 }

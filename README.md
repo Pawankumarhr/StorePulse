@@ -40,6 +40,19 @@ Phase 2 provides:
 
 Send the token in the `Authorization: Bearer <token>` header when calling protected endpoints.
 
+## Backend hardening
+
+Phase 6 adds a global exception filter, consistent success responses, input sanitization, and Swagger documentation at `http://localhost:3000/docs`.
+
+Create the default admin once the database migration has run:
+
+```powershell
+Set-Location backend
+npm run seed:admin
+```
+
+The seed is idempotent and reads `ADMIN_*` settings from `backend/.env`.
+
 ## Prerequisites
 
 - Node.js 22 or newer

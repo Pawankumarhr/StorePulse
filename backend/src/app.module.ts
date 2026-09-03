@@ -9,6 +9,7 @@ import { Rating } from './ratings/entities/rating.entity.js';
 import { RatingsModule } from './ratings/ratings.module.js';
 import { Store } from './stores/entities/store.entity.js';
 import { StoresModule } from './stores/stores.module.js';
+import { StoreOwnerModule } from './store-owner/store-owner.module.js';
 import { User } from './users/entities/user.entity.js';
 import { UsersModule } from './users/users.module.js';
 
@@ -19,6 +20,7 @@ import { UsersModule } from './users/users.module.js';
     AdminModule,
     StoresModule,
     RatingsModule,
+    StoreOwnerModule,
     UsersModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

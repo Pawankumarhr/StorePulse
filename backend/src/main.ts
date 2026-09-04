@@ -8,8 +8,11 @@ import { SanitizePipe } from './common/pipes/sanitize.pipe.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   app.useGlobalFilters(new HttpExceptionFilter());
+
   app.useGlobalInterceptors(new ResponseInterceptor());
+
   app.useGlobalPipes(
     new SanitizePipe(),
     new ValidationPipe({
@@ -18,14 +21,31 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
   const swaggerConfig = new DocumentBuilder()
     .setTitle('StorePulse API')
     .setDescription('Store ratings and management API')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
-  SwaggerModule.setup('docs', app, SwaggerModule.createDocument(app, swaggerConfig));
-  app.enableCors({ origin: process.env.FRONTEND_URL ?? 'http://localhost:5173' });
-  await app.listen(process.env.PORT ?? 3000);
+
+  SwaggerModule.setup(
+    'docs',
+    app,
+    SwaggerModule.createDocument(app, swaggerConfig),
+  );
+
+  const frontendUrl = (
+    process.env.FRONTEND_URL ?? 'http://localhost:5173'
+  ).replace(/\/$/, '');
+
+  app.enableCors({
+    origin: frontendUrl,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
+
+  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 }
+
 await bootstrap();

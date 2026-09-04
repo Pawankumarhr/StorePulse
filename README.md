@@ -2,18 +2,18 @@
 
 StorePulse is a store ratings application built with a NestJS + TypeORM backend and a Vite + React TypeScript frontend.
 
-## Phase 0
+## Current status
 
-The initial foundation includes:
+The application is implemented through Phase 11:
 
-- Separate `backend/` and `frontend/` applications
-- npm-based scripts
-- Docker Compose MySQL 8.4 service
-- Environment examples for local development
-- Backend health endpoint at `GET /health`
-- Runnable frontend shell
+- JWT authentication with role-based access
+- Admin user, store, dashboard, filtering, sorting, and pagination screens
+- Normal-user store search and rating workflow
+- Store Owner dashboard with average ratings and rater details
+- Responsive frontend screens with loading and error states
+- Swagger API documentation and an idempotent admin seed
 
-Authentication, roles, seed data, and feature pages are planned for later phases.
+Phase 12 completes polish, documentation, and deployment guidance.
 
 ## Database migrations
 
@@ -69,6 +69,8 @@ Copy-Item frontend/.env.example frontend/.env
 npm --prefix backend install
 npm --prefix frontend install
 docker compose up -d
+npm --prefix backend run migration:run
+npm --prefix backend run seed:admin
 ```
 
 The default local MySQL connection is:
@@ -102,6 +104,25 @@ npm run dev
 ```
 
 Open `http://localhost:5173` in a browser.
+
+The API documentation is available at `http://localhost:3000/docs`.
+
+You can also use the root convenience scripts:
+
+```powershell
+npm run install:all
+npm run build
+npm run lint
+npm test
+```
+
+## Deployment notes
+
+Deploy the backend and frontend as separate services. Set the backend environment variables from `backend/.env.example`, including a strong production `JWT_SECRET`, production database credentials, and the deployed frontend origin in `FRONTEND_URL`. Set `VITE_API_URL` in the frontend environment to the deployed backend URL before building.
+
+For a production database, run `npm run migration:run` from `backend/` during deployment. Keep `synchronize` disabled and run the idempotent `npm run seed:admin` only when the initial administrator is required. Do not use the sample local passwords in production.
+
+The Docker Compose file is intended for local MySQL development. A managed MySQL service is recommended for production, with backups, restricted credentials, TLS, and a private network between the API and database.
 
 ## Validation
 
